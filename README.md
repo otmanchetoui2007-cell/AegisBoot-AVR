@@ -50,40 +50,32 @@ AegisBoot-AVR/
 
 ## ⚙️ Technical Details
 
-- **Microcontroller**: ATmega328P (8-bit AVR @ 16 MHz)
-- **Flash Memory**: 32 KB total (4 KB allocated for Bootloader at x7000)
-- **Communication Protocol**: UART / Serial (115200 baud, 8N1) via vrdude
-- **Security Header**: 40-byte custom header (32-byte HMAC-SHA256 signature + 8-byte version metadata)
-- **Cryptographic Engine**: Software HMAC-SHA256 with constant-time comparison
+* **Microcontroller**: ATmega328P (8-bit AVR @ 16 MHz)
+* **Flash Memory**: 32 KB total (4 KB allocated for Bootloader at `0x7000`)
+* **Communication Protocol**: UART / Serial (115200 baud, 8N1) via `avrdude`
+* **Security Header**: 40-byte custom header (32-byte HMAC-SHA256 signature + 8-byte version metadata)
+* **Cryptographic Engine**: Software HMAC-SHA256 with constant-time comparison
 
+---
 
- ## 🛠️ Prerequisites & Toolchain Setup
+## 🛠️ Prerequisites & Toolchain Setup
 
-Ensure the following tools are installed and accessible in your system's PATH:
+Ensure the following tools are installed and accessible in your system's `PATH`:
 
-    1)AVR-GCC Toolchain (avr-gcc, avr-objcopy, make)
+1. **AVR-GCC Toolchain** (`avr-gcc`, `avr-objcopy`, `make`)
+2. **AVRDUDE** (Microcontroller flashing utility)
+3. **Python 3.x** (Used for cryptographic firmware signing)
+4. **PowerShell 5.1+** (For executing the build automation pipeline)
 
-    2)AVRDUDE (Microcontroller flashing utility)
+---
 
-    3)Python 3.x (Used for cryptographic firmware signing)
-
-    4)PowerShell 5.1+ (For executing the build automation pipeline)
-
- ## 🚀 Usage & Automated Pipeline
+## 🚀 Usage & Automated Pipeline
 
 The repository provides an automated end-to-end pipeline to compile, sign, and flash the device with a single command.
-Run Full Pipeline (Bootloader + Application):
- & "tools/build_and_sign.ps1" -Version 1 -ComPort COM3 -FlashBootloader -FlashApp
 
-Pipeline Execution Flow:
-
-    1.Application Compilation: Compiles the raw binary app/build/app.bin.
-
-    2. Cryptographic Signing: sign_firmware.py calculates the HMAC-SHA256 digest, prepends the header, and outputs output/signed_firmware.bin.
-
-    3.Bootloader Compilation: Builds bootloader/build/bootloader.hex linked to start address 0x7000.
-
-    4.Hardware Deployment: flash_target.ps1 deploys both the bootloader and signed application sequentially via AVRDUDE.
+### Run Full Pipeline (Bootloader + Application):
+```powershell
+& "tools/build_and_sign.ps1" -Version 1 -ComPort COM3 -FlashBootloader -FlashApp
 ## 🛡️ Security & Implementation Details
 
    - HMAC Signature Verification: The bootloader inspects the firmware header before jumping to application memory. If the locally computed digest does not match the header, execution is halted.
