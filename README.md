@@ -57,7 +57,7 @@ AegisBoot-AVR/
 - **Cryptographic Engine**: Software HMAC-SHA256 with constant-time comparison
 
 
-🛠️ Prerequisites & Toolchain Setup
+ ## 🛠️ Prerequisites & Toolchain Setup
 
 Ensure the following tools are installed and accessible in your system's PATH:
 
@@ -69,7 +69,7 @@ Ensure the following tools are installed and accessible in your system's PATH:
 
     4)PowerShell 5.1+ (For executing the build automation pipeline)
 
-🚀 Usage & Automated Pipeline
+ ## 🚀 Usage & Automated Pipeline
 
 The repository provides an automated end-to-end pipeline to compile, sign, and flash the device with a single command.
 Run Full Pipeline (Bootloader + Application):
@@ -84,7 +84,7 @@ Pipeline Execution Flow:
     3.Bootloader Compilation: Builds bootloader/build/bootloader.hex linked to start address 0x7000.
 
     4.Hardware Deployment: flash_target.ps1 deploys both the bootloader and signed application sequentially via AVRDUDE.
-🛡️ Security & Implementation Details
+## 🛡️ Security & Implementation Details
 
    - HMAC Signature Verification: The bootloader inspects the firmware header before jumping to application memory. If the locally computed digest does not match the header, execution is halted.
 
@@ -99,6 +99,6 @@ Pipeline Execution Flow:
 }
     -Memory Isolation: Bootloader memory bounds are strictly locked to prevent application code from overwriting critical boot logic.
 
-📜 License
+## 📜 License
 
 Distributed under the MIT License. Free to use, modify, and distribute.
