@@ -66,6 +66,15 @@ Software
    . AVRDUDE
    . PowerShell 5.1+
 
+## ⚙️ Technical Details
+
+- Microcontroller: ATmega328P (8-bit AVR  16 MHz)
+- Flash Memory**: 32 KB total (4 KB allocated for Bootloader at `0x7000`)
+- Communication Protocol: UART / Serial (`115200 baud`, 8N1) via `avrdude`
+- Security Header: 40-byte custom header (32-byte HMAC-SHA256 signature + 8-byte version metadata)
+- Cryptographic Engine: Software HMAC-SHA256 with constant-time comparison
+
+
 🔧 Build, Sign & Flash
 Run the automated pipeline script providing your COM port:
  & "tools\build_and_sign.ps1" -Version 1 -ComPort COM3 -FlashBootloader -FlashApp
