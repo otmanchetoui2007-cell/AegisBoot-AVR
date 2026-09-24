@@ -76,6 +76,7 @@ The repository provides an automated end-to-end pipeline to compile, sign, and f
 ### Run Full Pipeline (Bootloader + Application):
 ```powershell
 & "tools/build_and_sign.ps1" -Version 1 -ComPort COM3 -FlashBootloader -FlashApp
+
 ## 🛡️ Security & Implementation Details
 
    - HMAC Signature Verification: The bootloader inspects the firmware header before jumping to application memory. If the locally computed digest does not match the header, execution is halted.
